@@ -4,7 +4,7 @@
 #
 Name     : mpc
 Version  : 1.0.3
-Release  : 12
+Release  : 13
 URL      : ftp://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
 Source0  : ftp://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
 Summary  : No detailed summary available
