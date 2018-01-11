@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xF7D5C9BF765C61E3 (andreas@enge.fr)
 #
 Name     : mpc
-Version  : 1.0.3
-Release  : 18
-URL      : https://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
-Source0  : https://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
-Source99 : https://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz.sig
+Version  : 1.1.0
+Release  : 19
+URL      : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz
+Source0  : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz
+Source99 : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-3.0 LGPL-3.0+
@@ -52,23 +52,23 @@ lib components for the mpc package.
 
 
 %prep
-%setup -q -n mpc-1.0.3
+%setup -q -n mpc-1.1.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1500820343
+export SOURCE_DATE_EPOCH=1515687281
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -78,7 +78,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1500820343
+export SOURCE_DATE_EPOCH=1515687281
 rm -rf %{buildroot}
 %make_install
 
@@ -97,4 +97,4 @@ rm -rf %{buildroot}
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libmpc.so.3
-/usr/lib64/libmpc.so.3.0.0
+/usr/lib64/libmpc.so.3.1.0
