@@ -6,10 +6,10 @@
 #
 Name     : mpc
 Version  : 1.1.0
-Release  : 21
-URL      : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz
-Source0  : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz
-Source99 : https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
+Release  : 22
+URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
+Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
+Source99 : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-3.0 LGPL-3.0+
@@ -59,7 +59,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1515687897
+export SOURCE_DATE_EPOCH=1520829553
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -78,7 +78,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1515687897
+export SOURCE_DATE_EPOCH=1520829553
 rm -rf %{buildroot}
 %make_install
 
