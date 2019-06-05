@@ -6,7 +6,7 @@
 #
 Name     : mpc
 Version  : 1.1.0
-Release  : 23
+Release  : 24
 URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
 Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
 Source99 : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
