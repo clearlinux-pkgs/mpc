@@ -6,15 +6,16 @@
 #
 Name     : mpc
 Version  : 1.1.0
-Release  : 25
+Release  : 26
 URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
 Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz
-Source99 : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
+Source1 : https://mirrors.kernel.org/gnu/mpc/mpc-1.1.0.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-3.0 LGPL-3.0+
-Requires: mpc-lib
-Requires: mpc-doc
+Requires: mpc-info = %{version}-%{release}
+Requires: mpc-lib = %{version}-%{release}
+Requires: mpc-license = %{version}-%{release}
 BuildRequires : gmp-dev
 BuildRequires : mpfr-dev
 BuildRequires : sed
@@ -28,38 +29,50 @@ which is itself based on the GNU MP library (http://gmplib.org/).
 %package dev
 Summary: dev components for the mpc package.
 Group: Development
-Requires: mpc-lib
-Provides: mpc-devel
+Requires: mpc-lib = %{version}-%{release}
+Provides: mpc-devel = %{version}-%{release}
+Requires: mpc = %{version}-%{release}
 
 %description dev
 dev components for the mpc package.
 
 
-%package doc
-Summary: doc components for the mpc package.
-Group: Documentation
+%package info
+Summary: info components for the mpc package.
+Group: Default
 
-%description doc
-doc components for the mpc package.
+%description info
+info components for the mpc package.
 
 
 %package lib
 Summary: lib components for the mpc package.
 Group: Libraries
+Requires: mpc-license = %{version}-%{release}
 
 %description lib
 lib components for the mpc package.
 
 
+%package license
+Summary: license components for the mpc package.
+Group: Default
+
+%description license
+license components for the mpc package.
+
+
 %prep
 %setup -q -n mpc-1.1.0
+cd %{_builddir}/mpc-1.1.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1520829553
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1573773367
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -71,15 +84,17 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -f
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1520829553
+export SOURCE_DATE_EPOCH=1573773367
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/mpc
+cp %{_builddir}/mpc-1.1.0/COPYING.LESSER %{buildroot}/usr/share/package-licenses/mpc/f45ee1c765646813b442ca58de72e20a64a7ddba
 %make_install
 
 %files
@@ -87,14 +102,18 @@ rm -rf %{buildroot}
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/mpc.h
 /usr/lib64/libmpc.so
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/info/*
+%files info
+%defattr(0644,root,root,0755)
+/usr/share/info/mpc.info
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libmpc.so.3
 /usr/lib64/libmpc.so.3.1.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/mpc/f45ee1c765646813b442ca58de72e20a64a7ddba
