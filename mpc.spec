@@ -6,7 +6,7 @@
 #
 Name     : mpc
 Version  : 1.2.0
-Release  : 27
+Release  : 28
 URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz
 Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz
 Source1  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz.sig
@@ -68,13 +68,16 @@ cd %{_builddir}/mpc-1.2.0
 pushd ..
 cp -a mpc-1.2.0 buildavx2
 popd
+pushd ..
+cp -a mpc-1.2.0 buildavx512
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597768454
+export SOURCE_DATE_EPOCH=1597769075
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -96,6 +99,16 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 %configure --disable-static
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx512/
+export CFLAGS="$CFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export CXXFLAGS="$CXXFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export FFLAGS="$FFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export FCFLAGS="$FCFLAGS -m64 -march=skylake-avx512 -mprefer-vector-width=512"
+export LDFLAGS="$LDFLAGS -m64 -march=skylake-avx512"
+%configure --disable-static
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
@@ -104,12 +117,17 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 cd ../buildavx2;
 make %{?_smp_mflags} check || :
+cd ../buildavx512;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1597768454
+export SOURCE_DATE_EPOCH=1597769075
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mpc
 cp %{_builddir}/mpc-1.2.0/COPYING.LESSER %{buildroot}/usr/share/package-licenses/mpc/f45ee1c765646813b442ca58de72e20a64a7ddba
+pushd ../buildavx512/
+%make_install_avx512
+popd
 pushd ../buildavx2/
 %make_install_avx2
 popd
@@ -121,6 +139,7 @@ popd
 %files dev
 %defattr(-,root,root,-)
 /usr/include/mpc.h
+/usr/lib64/haswell/avx512_1/libmpc.so
 /usr/lib64/haswell/libmpc.so
 /usr/lib64/libmpc.so
 
@@ -130,6 +149,8 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/avx512_1/libmpc.so.3
+/usr/lib64/haswell/avx512_1/libmpc.so.3.2.0
 /usr/lib64/haswell/libmpc.so.3
 /usr/lib64/haswell/libmpc.so.3.2.0
 /usr/lib64/libmpc.so.3
