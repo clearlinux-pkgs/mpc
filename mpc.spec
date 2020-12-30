@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xF7D5C9BF765C61E3 (andreas@enge.fr)
 #
 Name     : mpc
-Version  : 1.2.0
-Release  : 28
-URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz
-Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz
-Source1  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.0.tar.gz.sig
+Version  : 1.2.1
+Release  : 29
+URL      : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.1.tar.gz
+Source0  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.1.tar.gz
+Source1  : https://mirrors.kernel.org/gnu/mpc/mpc-1.2.1.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-3.0 LGPL-3.0+
@@ -63,13 +63,13 @@ license components for the mpc package.
 
 
 %prep
-%setup -q -n mpc-1.2.0
-cd %{_builddir}/mpc-1.2.0
+%setup -q -n mpc-1.2.1
+cd %{_builddir}/mpc-1.2.1
 pushd ..
-cp -a mpc-1.2.0 buildavx2
+cp -a mpc-1.2.1 buildavx2
 popd
 pushd ..
-cp -a mpc-1.2.0 buildavx512
+cp -a mpc-1.2.1 buildavx512
 popd
 
 %build
@@ -77,7 +77,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597769075
+export SOURCE_DATE_EPOCH=1609355424
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -121,10 +121,10 @@ cd ../buildavx512;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1597769075
+export SOURCE_DATE_EPOCH=1609355424
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mpc
-cp %{_builddir}/mpc-1.2.0/COPYING.LESSER %{buildroot}/usr/share/package-licenses/mpc/f45ee1c765646813b442ca58de72e20a64a7ddba
+cp %{_builddir}/mpc-1.2.1/COPYING.LESSER %{buildroot}/usr/share/package-licenses/mpc/f45ee1c765646813b442ca58de72e20a64a7ddba
 pushd ../buildavx512/
 %make_install_avx512
 popd
@@ -150,11 +150,11 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/avx512_1/libmpc.so.3
-/usr/lib64/haswell/avx512_1/libmpc.so.3.2.0
+/usr/lib64/haswell/avx512_1/libmpc.so.3.2.1
 /usr/lib64/haswell/libmpc.so.3
-/usr/lib64/haswell/libmpc.so.3.2.0
+/usr/lib64/haswell/libmpc.so.3.2.1
 /usr/lib64/libmpc.so.3
-/usr/lib64/libmpc.so.3.2.0
+/usr/lib64/libmpc.so.3.2.1
 
 %files license
 %defattr(0644,root,root,0755)
