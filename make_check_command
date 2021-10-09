@@ -1,0 +1,7 @@
+make bench
+pushd ../buildavx2/
+make bench
+popd
+pushd ../buildavx512/
+make bench
+popd
